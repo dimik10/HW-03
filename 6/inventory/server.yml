@@ -1,0 +1,6 @@
+all:
+  hosts:
+    srv1:
+      ansible_host: 172.16.25.30
+    srv2:
+      ansible_host: 172.16.25.30

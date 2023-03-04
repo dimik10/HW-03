@@ -1,0 +1,49 @@
+---
+#- name: start crete dir
+#  ansible.builtin.include_tasks:
+#    file: create_patch.yml
+#
+#- name: Install Nginx
+#  apt:
+#    name: nginx
+#    update_cache: yes
+#    state: latest
+#
+#- name: Start Nginx and boot
+#  service:
+#     name: nginx
+#     state: started
+#     enabled: yes
+
+- name: Install php
+  apt:
+   name: php7.4-fpm
+   update_cache: yes
+   state: latest
+
+# php Configuration
+- name: Sets php-fpm conf file
+  template:
+    src: "files/www.conf.j2"
+    dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+
+#
+#- name: Enables new site
+#  file:
+#    src: "/etc/nginx/sites-available/{{ http_conf }}"
+#    dest: "/etc/nginx/sites-enabled/{{ http_conf }}"
+#    state: link
+#  notify: Reload Nginx
+#
+#- name: Removes "default" site
+#  file:
+#    path: "/etc/nginx/sites-enabled/default"
+#    state: absent
+#  notify: Reload Nginx
+
+## Sets Up PHP Info Page
+#- name: Sets Up PHP Info Page
+#  template:
+#    src: "files/info.php.j2"
+#    dest: "{{ dir }}/index.php"
+#  notify: Reload Nginx

@@ -1,0 +1,15 @@
+---
+
+- name: Install php
+  apt:
+   name: php7.4-fpm
+   update_cache: yes
+   state: latest
+
+# php Configuration
+- name: Sets php-fpm conf file
+  template:
+    src: "files/www.conf.j2"
+    dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+
+
