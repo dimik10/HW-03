@@ -1,6 +1,0 @@
----
-# vars file for http
-#http_host: "test.com"
-#http_conf: "test.conf"
-#http_port: "80"
-#dir: "/opt/nginx/ansible"
