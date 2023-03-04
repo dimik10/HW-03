@@ -7,6 +7,22 @@
     name: nginx
     update_cache: yes
     state: latest
+# Поскольку PHP работает в своей собственной среде , у него нет доступа к коду.
+#Чтобы исправить это, нам также нужно смонтировать папку с кодом в контейнере PHP. \
+#Таким образом, Nginx сможет обслуживать любые статические файлы, а PHP сможет найти файлы, которые он должен интерпретировать.
+# Поэтому ставим nfs сервер и делаем на втором сервере монтирование директории.
+- name: Install nfs-server
+  apt:
+    name: nfs-server
+    update_cache: yes
+    state: latest
+# тут клопируем конфиг nfs сервера с параметроми сразу!
+- name: Sets nfs conf file
+  template:
+    src: "files/exports.j2"
+    dest: "/etc/exports"
+  notify: reload nfsd
+
 - name: Start Nginx and boot
   service:
      name: nginx
@@ -29,8 +45,13 @@
     state: absent
   notify: Reload Nginx
 # Sets Up PHP Info Page
+
 - name: Sets Up PHP Info Page
   template:
     src: "files/info.php.j2"
     dest: "{{ dir }}/index.php"
-  notify: Reload Nginx
+#  notify: Reload Nginx
+- name: Sets Up PHP srv Page
+  template:
+    src: "files/srv.php.j2"
+    dest: "{{ dir }}/srv.php"

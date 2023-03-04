@@ -1,19 +1,17 @@
 server {
         listen {{ http_port }};
         root {{ dir }};
-        index index.php info.php index.htm index.nginx-debian.html;
+        index index.php index.html;
         server_name {{ http_host }};
 
-        location / {
-                try_files $uri $uri/ =404;
-        }
-
         location ~ \.php$ {
-                include snippets/fastcgi-php.conf;
-                fastcgi_pass {{hostvars[inventory_hostname].ansible_host}}:9000;
+        fastcgi_pass {{hostvars['srv2'].ansible_host}}:9000;
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
         }
 
-        location ~ /\.ht {
-                deny all;
-        }
 }

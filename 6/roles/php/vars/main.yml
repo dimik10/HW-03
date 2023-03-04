@@ -3,4 +3,8 @@
 #http_host: "test.com"
 #http_conf: "test.conf"
 #http_port: "80"
-#dir: "/opt/nginx/ansible"
+dir: "/opt/nginx/ansible"
+mynfs: "172.16.25.30:/opt/nginx/ansible"
+mountpoint: "/opt/nginx/ansible"
+permission: '0755'
+myopts: 'ro,sync'

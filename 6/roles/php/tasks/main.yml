@@ -6,10 +6,29 @@
    update_cache: yes
    state: latest
 
+- name: Install nfs-common
+  apt:
+   name: nfs-common
+   update_cache: yes
+   state: latest
+- name: check mountpoint exist
+  ansible.builtin.file:
+    path: "{{ mountpoint }}"
+    state: directory
+    mode: "{{ permission }}"
+    owner: root
+    group: root
+
+- name: mount network share
+  ansible.posix.mount:
+    src: "{{ mynfs }}"
+    path: "{{ mountpoint }}"
+    fstype: nfs
+    opts: "{{ myopts }}"
+    state: mounted
 # php Configuration
 - name: Sets php-fpm conf file
   template:
     src: "files/www.conf.j2"
     dest: "/etc/php/7.4/fpm/pool.d/www.conf"
-
 

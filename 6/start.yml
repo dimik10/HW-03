@@ -1,4 +1,15 @@
 ---
+- hosts: srv1
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  roles:
+    - role: users
+      tags: users
+
+    - role: http
+      tags: http
 - hosts: srv2
   become: true
   vars:
@@ -11,17 +22,7 @@
     - role: php
       tags: php
 
-- hosts: srv1
-  become: true
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
 
-  roles:
-    - role: users
-      tags: users
-
-    - role: http
-      tags: http
 
 
 
